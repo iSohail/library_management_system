@@ -13,6 +13,6 @@ const router = express.Router();
 router.post('/create-book', authenticate, catchAsync(createBook));
 router.post('/checkout-book', authenticate, catchAsync(checkOutBook));
 router.post('/checkin-book', authenticate, catchAsync(checkInBook));
-router.get('/', authenticate, catchAsync(getBooks));
+router.get('/', catchAsync(getBooks));
 
 export default router;

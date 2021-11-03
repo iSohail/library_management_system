@@ -27,6 +27,7 @@ router.post('/logout', catchAsync(logout));
 router.post('/recover-password', catchAsync(recoverPassword));
 router.post('/reset-password', catchAsync(resetPassword));
 router.get('/protected-route-test', authenticate, catchAsync(protectedRoute));
+router.get('/verify-token', authenticate, catchAsync(protectedRoute));
 
 /**
  * Social Authentication: Google

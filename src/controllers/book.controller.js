@@ -106,13 +106,17 @@ export default {
    */
   getBooks: async (req, res) => {
     try {
-      const { page, perPage } = req.query;
+      const { page, perPage, id = '' } = req.query;
       const options = {
         page: parseInt(page, 10) || 1,
         limit: parseInt(perPage, 10) || 10,
       };
+      let filter = {};
 
-      Book.paginate({}, options)
+      if (id) {
+        filter = { _id: id };
+      }
+      Book.paginate(filter, options)
         .then((books) => {
           res.status(200).json({
             status: 'success',

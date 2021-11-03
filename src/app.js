@@ -15,7 +15,7 @@ import xss from 'xss-clean';
 /**
  * Import currentUser middleware from shared library
  */
-import { currentUser } from './middlewares/customAuthMiddleware/currentUser.middleware';
+// import { currentUser } from './middlewares/customAuthMiddleware/currentUser.middleware';
 
 /**
  * Import custom logger function using winston
@@ -30,7 +30,7 @@ import mongoDbConfig from './config/mongodb.config';
 /**
  * Custom error handling
  */
-import { NotFoundError } from './helpers/errors.helper';
+// import { NotFoundError } from './helpers/errors.helper';
 import errorHandler from './middlewares/errorHandler.middleware';
 
 /**
@@ -146,7 +146,7 @@ app.use(
  * This middleware is responsible for bringing custom auth middleware
  * as fallback to Passport if you don't want to use it
  */
-app.use(currentUser);
+// app.use(currentUser);
 
 /**
  * Initialize Passport and pass the session to session storage of express
@@ -157,7 +157,7 @@ app.use(passport.session());
 /**
  * Define static routes for express
  */
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
 /**
  * CORS policy configuration
@@ -192,16 +192,16 @@ app.use('/api/v1/', v1Routes);
  * Everytime you hit a route that doesn't exist it returns a json error 404
  */
 // eslint-disable-next-line no-unused-vars
-app.all('*', (_, res) => {
-  throw new NotFoundError('Resource not found on this server');
-});
+// app.all('*', (_, res) => {
+//   throw new NotFoundError('Resource not found on this server');
+// });
 
 /**
  * Catchall middleware. Activate to serve every route in
  * the public directory i.e. if we have a build of React
  */
 app.use((req, res) =>
-  res.sendFile(path.resolve(path.join(__dirname, '../public/index.html'))),
+  res.sendFile(path.resolve(path.join(__dirname, '../client/dist/index.html'))),
 );
 
 app.use(errorHandler);
