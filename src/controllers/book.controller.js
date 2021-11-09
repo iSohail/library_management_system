@@ -15,24 +15,33 @@ const returnDaysCalculate = async (checkoutDate = new Date()) => {
   let countDays = 0;
   const currentDate = checkoutDate;
   currentDate.setUTCHours(0, 0, 0, 0);
-  console.log(currentDate, 'current Date');
   const url =
     '/calendar/v3/calendars/en.pk%23holiday%40group.v.calendar.google.com/events?key=AIzaSyDfKWdpeRjC-731P6PQkR8DsKuuVewHpqc';
   const calendarData = await googleApi.get(url);
-  const isHoliday = calendarData?.data?.items.find((item) => {
-    const itemDate = new Date(item.start.date);
-    if (itemDate.getTime() === currentDate.getTime()) {
-      return item;
-    }
-    return undefined;
-  });
+  console.log(calendarData, 'calendar');
+  const isHoliday = (currentDateIterator) => {
+    const isHolidayToday = calendarData?.data?.items.find((item) => {
+      // console.log(currentDateIterator, 'current Date');
+      const itemDate = new Date(item.start.date);
+      if (itemDate.getTime() === currentDateIterator.getTime()) {
+        return item;
+      }
+      return undefined;
+    });
+    return isHolidayToday;
+  };
   // iterate (while) until count reaches 15
   while (countDays < 15) {
     const dayOfWeek = currentDate.getDay();
     // skip saturdays and sundays as weekends
     if (dayOfWeek !== 0 && dayOfWeek !== 6) {
       // skip count if currentDate is holiday
-      if (!isHoliday) countDays += 1;
+      // console.log(isHoliday);
+      console.log(isHoliday(currentDate), 'date response');
+      // countDays += 1;
+      if (!isHoliday(currentDate)) {
+        countDays += 1;
+      }
     }
 
     currentDate.setDate(currentDate.getDate() + 1);
